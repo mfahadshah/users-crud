@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const connectDB = require('./db/mongo_db');
+const { errorHandler } = require('./middlewares/errorMiddleware')
 
 const PORT = process.env.PORT || 5000;
 
@@ -32,3 +33,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   );
 }
+
+//error handler middleware
+app.use(errorHandler);

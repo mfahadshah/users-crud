@@ -55,11 +55,10 @@ export default function UsersList(props) {
 
   const [loading, setLoading] = React.useState(false);
   
-  const [limit] = React.useState(15);
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
   
-  const [searchText, setSearchText] = React.useState("");
+  const [limit, setLimit] = React.useState(1000);
   const [totalRecords, setTotalRecords] = React.useState(0);
 
   // useEffect(() => {
@@ -72,7 +71,7 @@ export default function UsersList(props) {
   useEffect(() => {
     
     setLoading(true);
-    Auth.fetch(`/users?searchText=${searchText}&page=${page}`)
+    Auth.fetch(`/users?limit=${limit}&page=${page}`)
       .then((res) => {
         if (res.success === true) {
           setUsers(res.users);
@@ -87,12 +86,12 @@ export default function UsersList(props) {
   }, [page]);
 
   const handleSearch = (event) => {
-    setSearchText(event.target.value);
+    setLimit(event.target.value);
   };
 
-  const Search = () => {
+  const Limit = () => {
     setLoading(true);
-    Auth.fetch(`/users?searchText=${searchText}&page=${page}`)
+    Auth.fetch(`/users?limit=${limit}&page=${page}`)
       .then((res) => {
         if (res.success === true) {
           setUsers(res.users);
@@ -140,17 +139,6 @@ export default function UsersList(props) {
     <div className={classes.root}>
     
     <div>
-      <div className={classes.tblTop}>
-      <TextField
-        placeholder="Search ..."
-        label="Search"
-        className={classes.searchFld}
-        onChange={handleSearch}
-        size="small"
-      />
-      <Button variant="contained" className={classes.searchBtn} onClick={Search}>Search</Button>
-
-      </div>
       {loading && <LinearProgress className={classes.loader} />}
       <AddCircleIcon className={classes.addBtn} onClick={() => {
             history.push("/users/new");

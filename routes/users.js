@@ -20,7 +20,9 @@ router.post(
 // @route   GET api/users/:id
 // @desc    Get user
 // @access  Private
-router.get("/:id", auth, userController.GetUser);
+router.get("/:id", auth, [
+    check("id", "Invalid mongo id").isMongoId(),
+  ],userController.GetUser);
 
 // @route   GET api/users/
 // @desc    Get users
@@ -30,10 +32,14 @@ router.get("/", auth, userController.GetUsers);
 // @route   PUT api/users/:id
 // @desc    Update user
 // @access  Private
-router.put("/:id", auth, userController.UpdateUser);
+router.put("/:id", auth, [
+    check("id", "Invalid mongo id").isMongoId()
+  ], userController.UpdateUser);
 
 // @route   DELETE api/users/:id
 // @desc    Delete user
 // @access  Private
-router.delete("/:id", auth, userController.DeleteUser);
+router.delete("/:id", auth,[
+    check("id", "Invalid mongo id").isMongoId(),
+  ], userController.DeleteUser);
 module.exports = router;

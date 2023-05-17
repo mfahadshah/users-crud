@@ -67,6 +67,8 @@ const GetUsers = async (req, res, next) => {
   try {
     let { limit, page, sortBy } = req.query;
     limit = limit ? parseInt(limit) : 1000;
+    page = page ? parseInt(page) : 1;
+    page = (page - 1) * limit;
     sortBy = sortBy ? sortBy : '-createdAt _id';
     const users = await User.find({ role: "basic" }, { name: 1, email: 1 }).sort(sortBy).limit(limit).skip(page).lean();
     const total_count = await User.countDocuments({ role: "basic" }).exec()
